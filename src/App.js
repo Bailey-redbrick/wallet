@@ -6,7 +6,7 @@ import {
   defaultChains,
   configureChains,
 } from "wagmi";
-
+import { ConnectKitProvider, ConnectKitButton } from "connectkit";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
@@ -15,8 +15,9 @@ import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 import { Profile } from "./Profile";
 import { MintNFT } from "./MintNFT";
+const alchemyId = "bAKW3eTb1ePbyuImtPaIFrVPSJgXDC1P";
 const { chains, provider, webSocketProvider } = configureChains(defaultChains, [
-  alchemyProvider({ apiKey: "bAKW3eTb1ePbyuImtPaIFrVPSJgXDC1P" }),
+  alchemyProvider({ apiKey: alchemyId }),
   publicProvider(),
 ]);
 
@@ -51,8 +52,11 @@ const client = createClient({
 function App() {
   return (
     <WagmiConfig client={client}>
-      <Profile />
-      <MintNFT />
+      <ConnectKitProvider>
+        <Profile />
+        <MintNFT />
+        <ConnectKitButton />
+      </ConnectKitProvider>
     </WagmiConfig>
   );
 }
